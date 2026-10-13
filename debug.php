@@ -2,25 +2,36 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once __DIR__ . '/includes/config.php';
+echo "<h2>CarePulse Diagnostic</h2>";
 
-echo "<h3>Environment Config:</h3>";
-echo "DB_HOST: " . htmlspecialchars(DB_HOST) . "<br>";
-echo "DB_PORT: " . htmlspecialchars((string)DB_PORT) . "<br>";
-echo "DB_NAME: " . htmlspecialchars(DB_NAME) . "<br>";
-echo "DB_USER: " . htmlspecialchars(DB_USER) . "<br>";
-echo "DB_PASS: " . (empty(DB_PASS) ? '[EMPTY]' : '[SET]') . "<br>";
-
-echo "<h3>Testing PDO Connection:</h3>";
 try {
+    echo "1. Loading config & db...<br>";
+    require_once __DIR__ . '/includes/config.php';
     require_once __DIR__ . '/includes/db.php';
-    $db = Database::getInstance()->getConnection();
-    echo "<p style='color:green;'>SUCCESS: Connected to database!</p>";
-    $tables = Database::fetchAll("SHOW TABLES");
-    echo "Tables found: " . count($tables) . "<br>";
-    foreach ($tables as $t) {
-        echo "- " . htmlspecialchars(implode(', ', $t)) . "<br>";
-    }
+    require_once __DIR__ . '/includes/auth.php';
+
+    echo "2. Querying departments...<br>";
+    $departments = Database::fetchAll("SELECT * FROM departments ORDER BY id ASC LIMIT 8");
+    echo "Departments count: " . count($departments) . "<br>";
+
+    echo "3. Querying featured doctors...<br>";
+    $featuredDoctors = Database::fetchAll("
+        SELECT d.*, u.name, u.avatar, dep.name as department_name, dep.icon as department_icon
+        FROM doctor_profiles d
+        JOIN users u ON d.user_id = u.id
+        JOIN departments dep ON d.department_id = dep.id
+        WHERE u.status = 'active'
+        ORDER BY d.rating DESC LIMIT 4
+    ");
+    echo "Featured doctors count: " . count($featuredDoctors) . "<br>";
+
+    echo "4. Loading header...<br>";
+    require_once __DIR__ . '/includes/security.php';
+    $currentUser = Auth::currentUser();
+    echo "Current user check passed.<br>";
+
+    echo "<h3 style='color:green;'>All core checks passed!</h3>";
 } catch (Throwable $e) {
-    echo "<p style='color:red;'>ERROR: " . htmlspecialchars($e->getMessage()) . "</p>";
+    echo "<h3 style='color:red;'>ERROR: " . htmlspecialchars($e->getMessage()) . "</h3>";
+    echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
 }

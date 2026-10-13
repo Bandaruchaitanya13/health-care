@@ -31,6 +31,11 @@ class Database {
 
         try {
             $this->conn = new PDO($dsn, DB_USER, DB_PASS, $options);
+            try {
+                $this->conn->exec("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+            } catch (Throwable $ignore) {
+                // Ignore if engine does not support dynamic sql_mode
+            }
         } catch (PDOException $e) {
             error_log("[Database Connection Error] " . $e->getMessage());
             die(json_encode([

@@ -28,7 +28,7 @@ $doctorWorkload = Database::fetchAll("
     JOIN users u ON d.user_id = u.id
     JOIN departments dep ON d.department_id = dep.id
     LEFT JOIN appointments a ON d.id = a.doctor_id
-    GROUP BY d.id
+    GROUP BY d.id, u.name, dep.name, d.specialization, d.rating
     ORDER BY total_appointments DESC
 ");
 
@@ -40,7 +40,7 @@ $departmentStats = Database::fetchAll("
     FROM departments dep
     LEFT JOIN appointments a ON dep.id = a.department_id
     LEFT JOIN payments p ON a.id = p.appointment_id AND p.payment_status = 'successful'
-    GROUP BY dep.id
+    GROUP BY dep.id, dep.name, dep.icon
     ORDER BY appointment_count DESC
 ");
 

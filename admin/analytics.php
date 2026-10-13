@@ -21,7 +21,7 @@ $departmentStats = Database::fetchAll("
     FROM departments dep
     LEFT JOIN appointments a ON dep.id = a.department_id
     LEFT JOIN payments p ON a.id = p.appointment_id AND p.payment_status = 'successful'
-    GROUP BY dep.id
+    GROUP BY dep.id, dep.name, dep.icon
     ORDER BY appointment_count DESC
 ");
 

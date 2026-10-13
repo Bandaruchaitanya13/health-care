@@ -1,0 +1,25 @@
+# Logs
+*.log
+error.log
+notifications.log
+
+# Python cache
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*$py.class
+
+# Runtime uploads
+/uploads/*
+!/uploads/.htaccess
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment / Local settings
+.env
+.vscode/
+.idea/

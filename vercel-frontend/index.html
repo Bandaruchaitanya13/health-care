@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f766e">
+    <meta name="description" content="CarePulse AI connects patients and clinicians through intelligent telehealth and hospital tools.">
+    <title>CarePulse AI | Intelligent Telehealth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #142b3b;
+            --muted: #5d7080;
+            --teal: #0f766e;
+            --mint: #d9f5ee;
+            --line: #e1eceb;
+            --paper: #f6fbfa;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background:
+                radial-gradient(ellipse at 80% 10%, rgba(184, 241, 225, .52), transparent 32rem),
+                var(--paper);
+            font-family: "DM Sans", sans-serif;
+        }
+        a { color: inherit; }
+        .wrap { width: min(1120px, calc(100% - 40px)); margin: auto; }
+        header { padding: 24px 0; }
+        .nav { display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font: 800 21px Manrope, sans-serif; }
+        .brand-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; background: var(--teal); color: white; font-size: 21px; }
+        .brand span span { color: var(--teal); }
+        .nav-link { text-decoration: none; font-weight: 700; color: var(--teal); }
+        main { padding: 70px 0 78px; }
+        .hero { display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 55px; }
+        .eyebrow { display: inline-flex; gap: 8px; align-items: center; padding: 8px 13px; border: 1px solid #c5e8df; border-radius: 99px; background: #eaf8f4; color: var(--teal); font-size: 13px; font-weight: 700; }
+        h1 { max-width: 680px; margin: 20px 0; font: 800 clamp(42px, 6vw, 68px)/1.08 Manrope, sans-serif; letter-spacing: -.055em; }
+        h1 em { color: var(--teal); font-style: normal; }
+        .intro { max-width: 600px; color: var(--muted); font-size: 18px; line-height: 1.75; }
+        .actions { display: flex; flex-wrap: wrap; gap: 13px; margin: 28px 0 17px; }
+        .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 50px; padding: 0 20px; border: 1px solid var(--teal); border-radius: 12px; background: var(--teal); color: white; font-weight: 700; text-decoration: none; box-shadow: 0 8px 20px #0f766e24; }
+        .button.secondary { background: white; color: var(--teal); box-shadow: none; }
+        .hint { color: #718391; font-size: 13px; }
+        .visual { position: relative; padding: 26px; border: 1px solid #dcebe7; border-radius: 28px; background: #fff; box-shadow: 0 24px 70px #174e4420; }
+        .visual-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .status { color: #178461; font-size: 12px; font-weight: 700; }
+        .status::before { display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: #21aa79; content: ""; }
+        .queue { padding: 19px; border-radius: 18px; background: #f1f8f6; }
+        .queue-label { color: var(--muted); font-size: 13px; }
+        .queue-number { margin: 7px 0 15px; font: 800 31px Manrope, sans-serif; }
+        .bar { height: 8px; overflow: hidden; border-radius: 99px; background: #d7e9e4; }
+        .bar span { display: block; width: 72%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #0f766e, #48b89a); }
+        .queue-foot { display: flex; justify-content: space-between; margin-top: 11px; color: var(--muted); font-size: 12px; }
+        .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 13px; }
+        .tile { padding: 17px; border: 1px solid var(--line); border-radius: 16px; }
+        .tile i { color: var(--teal); font-size: 21px; }
+        .tile strong { display: block; margin-top: 9px; font-size: 14px; }
+        .tile small { display: block; margin-top: 4px; color: var(--muted); }
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 78px; }
+        .feature { padding: 22px; border: 1px solid var(--line); border-radius: 17px; background: #ffffffbd; }
+        .feature i { color: var(--teal); font-size: 21px; }
+        .feature h2 { margin: 12px 0 7px; font: 700 17px Manrope, sans-serif; }
+        .feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+        footer { padding: 22px 0 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+        @media (max-width: 760px) {
+            main { padding: 35px 0 55px; }
+            .hero { grid-template-columns: 1fr; gap: 35px; }
+            .features { grid-template-columns: 1fr; margin-top: 48px; }
+            .nav-link { font-size: 14px; }
+            .visual { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="wrap nav">
+            <a class="brand" href="/" aria-label="CarePulse AI home">
+                <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+                <span>CarePulse<span>AI</span></span>
+            </a>
+            <a class="nav-link" href="https://carepulse-ai-backend.onrender.com/">Open CarePulse <i class="bi bi-arrow-up-right"></i></a>
+        </div>
+    </header>
+    <main>
+        <div class="wrap">
+            <section class="hero">
+                <div>
+                    <span class="eyebrow"><i class="bi bi-stars"></i> Intelligent telehealth platform</span>
+                    <h1>Healthcare, made more <em>connected.</em></h1>
+                    <p class="intro">Explore a smarter care experience with online consultations, AI-assisted symptom guidance, appointment booking, and live queue tools.</p>
+                    <div class="actions">
+                        <a class="button" href="https://carepulse-ai-backend.onrender.com/"><i class="bi bi-heart-pulse"></i> Open the CarePulse app</a>
+                        <a class="button secondary" href="#features">Explore features</a>
+                    </div>
+                    <p class="hint">The application opens on its Render-hosted service. It may take a moment to wake if idle.</p>
+                </div>
+                <div class="visual" aria-label="CarePulse platform preview">
+                    <div class="visual-top">
+                        <strong>CarePulse Care Hub</strong>
+                        <span class="status">Care tools</span>
+                    </div>
+                    <div class="queue">
+                        <div class="queue-label">A more connected care journey</div>
+                        <div class="queue-number">Care, in sync.</div>
+                        <div class="bar"><span></span></div>
+                        <div class="queue-foot"><span>Appointments</span><span>Consultations</span></div>
+                    </div>
+                    <div class="tiles">
+                        <div class="tile"><i class="bi bi-camera-video"></i><strong>Telehealth</strong><small>Online consultations</small></div>
+                        <div class="tile"><i class="bi bi-robot"></i><strong>AI guidance</strong><small>Symptom insights</small></div>
+                        <div class="tile"><i class="bi bi-calendar2-check"></i><strong>Appointments</strong><small>Find a care slot</small></div>
+                        <div class="tile"><i class="bi bi-hourglass-split"></i><strong>Queue updates</strong><small>Know what's next</small></div>
+                    </div>
+                </div>
+            </section>
+            <section class="features" id="features" aria-label="Platform features">
+                <article class="feature"><i class="bi bi-robot"></i><h2>AI-assisted guidance</h2><p>Explore symptom insights that can help guide your next step in care.</p></article>
+                <article class="feature"><i class="bi bi-camera-video"></i><h2>Online consultations</h2><p>Connect with care teams through the platform's telehealth experience.</p></article>
+                <article class="feature"><i class="bi bi-clipboard2-pulse"></i><h2>Care management</h2><p>Appointment, queue, and medical record tools in one connected app.</p></article>
+            </section>
+        </div>
+    </main>
+    <footer><div class="wrap">CarePulse AI · A demonstration platform. It is not a substitute for professional medical advice or emergency care.</div></footer>
+</body>
+</html>

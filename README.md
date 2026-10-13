@@ -120,3 +120,29 @@ Pre-configured credentials for all three user roles (all use the same password):
 2. **Access the Application**:
    Open your web browser and navigate directly to:
    **`http://localhost/carepulse-ai/`**
+
+## ☁️ Deploying the Landing Page to Vercel and the App to Render
+
+The PHP application (including its interactive portals and API) runs on Render. Vercel serves a separate static landing page from `vercel-frontend/`; it links visitors to the Render application and does not run PHP or connect directly to the database.
+
+### 1. Prepare a MySQL database
+
+Create an externally hosted MySQL 8 or MariaDB database that accepts connections from Render. Render's built-in database service is PostgreSQL and is not compatible with this application's MySQL schema. Keep the database host, port, name, username, and password for the Render environment settings.
+
+Import `database/schema.sql` and then `database/seed.sql` into a **new, empty database**. The schema drops and recreates the application's tables. If your provider assigns a database name other than `carepulse_db`, update the `USE` statements in both SQL files to the assigned name before importing.
+
+### 2. Deploy the PHP application on Render
+
+1. In Render, create a **Blueprint** from this GitHub repository and apply `render.yaml`.
+2. In the `carepulse-ai-backend` web service's environment settings, set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASS` to the MySQL database values. The blueprint declares these variables; the secret password is entered in the Render dashboard.
+3. Wait for the Docker build and deploy to finish, then open the service URL (the default service name maps to `https://carepulse-ai-backend.onrender.com` if that name is available).
+
+The Docker image provides PHP 8.2 with PDO MySQL and Python/scikit-learn for the AI endpoints. Render's free web services can sleep when idle, and their local filesystem is ephemeral; uploaded medical records will not persist across restarts or deploys on that plan. Use persistent storage or external object storage before relying on uploads.
+
+### 3. Deploy the static landing page on Vercel
+
+1. Import the same GitHub repository as a new Vercel project.
+2. Keep the project root at the repository root; `vercel.json` selects `vercel-frontend/` as the static output directory.
+3. Deploy. Vercel will publish the static landing page at the project URL.
+
+The landing page's app links point to `https://carepulse-ai-backend.onrender.com`. If Render assigns a different URL, replace that URL in `vercel-frontend/index.html` and redeploy Vercel.

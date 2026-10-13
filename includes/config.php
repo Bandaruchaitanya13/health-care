@@ -18,19 +18,23 @@ define('APP_TAGLINE', 'Intelligent Telehealth & Smart Hospital Platform');
 define('APP_VERSION', '2.0.0');
 
 // Database Configuration
-define('DB_HOST', '127.0.0.1');
-define('DB_PORT', 3306);
-define('DB_NAME', 'carepulse_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+$dbPass = getenv('DB_PASS');
+define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
+define('DB_PORT', (int)(getenv('DB_PORT') ?: 3306));
+define('DB_NAME', getenv('DB_NAME') ?: 'carepulse_db');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', $dbPass === false ? '' : $dbPass);
 
 // Base Paths and URLs
 define('BASE_DIR', realpath(__DIR__ . '/..'));
 define('UPLOAD_DIR', BASE_DIR . '/uploads');
-define('PYTHON_PATH', 'python'); // Python executable on system
+define('PYTHON_PATH', getenv('PYTHON_PATH') ?: 'python'); // Python executable on system
 
 // Determine Base URL dynamically
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? "https://" : "http://";
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
+    || strtolower($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
+$protocol = $isHttps ? "https://" : "http://";
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost:8000';
 $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
 $basePath = preg_replace('#/(patient|doctor|admin|api|payments|assets|includes|ai|database).*#i', '', $scriptDir);

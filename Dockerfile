@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 python3-venv \
+    && apt-get install -y --no-install-recommends python3 python3-venv ca-certificates \
     && docker-php-ext-install pdo_mysql fileinfo \
     && a2enmod headers deflate \
     && python3 -m venv /opt/venv \

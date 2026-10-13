@@ -19,6 +19,16 @@ class Database {
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
         ];
 
+        // Enable SSL encryption for cloud MySQL (TiDB Cloud port 4000 or DB_SSL flag)
+        if ((defined('DB_PORT') && DB_PORT == 4000) || getenv('DB_SSL') === 'true') {
+            if (file_exists('/etc/ssl/certs/ca-certificates.crt')) {
+                $options[PDO::MYSQL_ATTR_SSL_CA] = '/etc/ssl/certs/ca-certificates.crt';
+            }
+            if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+                $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+            }
+        }
+
         try {
             $this->conn = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
